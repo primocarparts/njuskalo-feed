@@ -1,0 +1,38 @@
+name: Njusaklo Daily Stock Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 2 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: njuskalo-daily-stock-sync
+  cancel-in-progress: false
+
+jobs:
+  stock-sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Update XML from Shopify stock
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python PrimoNjusaklo_DAILY_STOCK_SYNC.py
+      - name: Validate XML
+        run: python -c "import xml.etree.ElementTree as ET; ET.parse('njuskalo.xml'); print('XML OK')"
+      - name: Commit XML only when changed
+        run: |
+          if git diff --quiet -- njuskalo.xml; then echo "No stock changes."; exit 0; fi
+          git config user.name "Primo Njusaklo Stock Sync"
+          git config user.email "actions@users.noreply.github.com"
+          git add njuskalo.xml
+          git commit -m "Daily Njusaklo stock sync"
+          git push
