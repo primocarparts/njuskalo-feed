@@ -111,7 +111,18 @@ ENGLISH_PROSE=re.compile(
 )
 UNTRANSLATED_ENGLISH=set()
 
+TRANSLATION_CACHE_FILE=Path(__file__).with_name('njuskalo_translation_cache.json')
+TRANSLATION_CACHE=None
+TRANSLATION_CACHE_CHANGED=False
+
 def deepl_translate(text):
+ global TRANSLATION_CACHE,TRANSLATION_CACHE_CHANGED
+ if TRANSLATION_CACHE is None:
+  try:
+   TRANSLATION_CACHE=json.loads(TRANSLATION_CACHE_FILE.read_text(encoding='utf-8'))
+  except (OSError,ValueError):
+   TRANSLATION_CACHE={}
+ if text in TRANSLATION_CACHE: return TRANSLATION_CACHE[text]
  key=os.environ.get('DEEPL_API_KEY','').strip()
  if not key: return None
  api=os.environ.get('DEEPL_API_URL','').strip()
@@ -124,10 +135,19 @@ def deepl_translate(text):
  try:
   with urllib.request.urlopen(req,timeout=30) as response:
    out=json.loads(response.read())['translations'][0]['text']
+  TRANSLATION_CACHE[text]=out
+  TRANSLATION_CACHE_CHANGED=True
   return out
  except Exception as exc:
   print('WARNING: DeepL translation failed:',str(exc)[:180])
   return None
+
+def save_translation_cache():
+ if TRANSLATION_CACHE_CHANGED:
+  TRANSLATION_CACHE_FILE.write_text(
+   json.dumps(TRANSLATION_CACHE,ensure_ascii=False,sort_keys=True,indent=2)+'\n',
+   encoding='utf-8'
+  )
 
 def local_croatian_translation(text):
  for english,croatian in sorted(CROATIAN_SENTENCES,key=lambda pair:len(pair[0]),reverse=True):
@@ -185,9 +205,15 @@ def title_for_njuskalo(title):
  if re.search(r'\bECU\b',t,flags=re.I): return t
  for english,croatian in TITLE_CROATIAN_TERMS:
   t=re.sub(english,lambda m:croatian,t,flags=re.I)
- # Optional API translation of prose-only English titles is not automatic:
- # avoid changing original part numbers, model codes and vehicle brand names.
- return t
+ # Translate previously unknown non-ECU wording if an API key is configured.
+ # Never translate slash-delimited OEM / Bosch part-number segments.
+ pieces=re.split(r'(\s+/\s+)',t)
+ for index in range(0,len(pieces),2):
+  piece=pieces[index]
+  if len(ENGLISH_PROSE.findall(piece))>=2 and not re.search(r'\d{6,}',piece):
+   translated=deepl_translate(piece)
+   if translated: pieces[index]=translated
+ return ''.join(pieces)
 
 def shopify_products(tok):
  q="""query($after:String){products(first:100,after:$after,query:"status:active"){nodes{id title descriptionHtml productType variants(first:100){nodes{sku price inventoryQuantity}} images(first:10){nodes{url}}} pageInfo{hasNextPage endCursor}}}"""
@@ -255,6 +281,7 @@ def main():
   print('WARNING: Unknown English lines:',len(UNTRANSLATED_ENGLISH),
         '- add DEEPL_API_KEY for fully automatic translation of new templates.')
   for sample in sorted(UNTRANSLATED_ENGLISH)[:5]: print('UNTRANSLATED:',sample)
+ save_translation_cache()
  ET.indent(root,space='\t'); tree.write(OUT,encoding='UTF-8',xml_declaration=True)
  print('Existing before:',len(existing)); print('Added:',len(add_skus)); print('Removed:',len(remove_skus)); print('Updated descriptions:',updated_descriptions); print('Updated titles:',updated_titles); print('Final XML ads:',len(root.findall('ad_item')))
  if add_skus: print('ADDED SKUs:',', '.join(add_skus))
