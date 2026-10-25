@@ -14367,7 +14367,15 @@ IAW 48P270
 9642423780
 
 Kompatibilnost s vozilima
-Vehicle identified in the original product title: PEUGEOT 206. Additional compatible vehicle models have not yet been verified for the exact part numbers. This is not a complete fitment list.
+Vehicle applications associated with ECU reference 9642423780 in our previously researched compatibility database:
+
+CITROEN C3 Mk1 – 1.1L 8V 44kW/59HP IAW 48P
+
+FIAT DUCATO (1994-2006) – 2.0L 8V 81kW/109HP IAW48P2.40
+
+PEUGEOT 206 – 1.1L 8V 44kW/60HP IAW48P2
+
+Fitment check: Compare the complete Bosch/OEM reference numbers and, where applicable, software/hardware versions with the original unit. A vehicle model or engine match alone does not guarantee direct interchangeability; coding, cloning or immobilizer work may be required.
 Stanje
 Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
 Važna provjera kompatibilnosti
@@ -49568,60 +49576,6 @@ Moguće plaćanje pouzećem.</description>
 	</ad_item>
 	<ad_item class="ad_simple">
 		<user_id>3303688</user_id>
-		<original_id>B44-19</original_id>
-		<category_id>12813</category_id>
-		<title>SEAT IBIZA 1.4 ECU / 0261206836 / 6K0906032Q / BOSCH</title>
-		<currency_id>2</currency_id>
-		<price>19.00</price>
-		<description>Genuine used Bosch engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as SEAT IBIZA 1.4.
-Product Details
-
-Component: Engine Control Unit (ECU / ECM)
-
-Manufacturer: Bosch
-
-Condition: Used genuine/OEM automotive part
-
-Primary part reference: 0261206836
-
-Brojevi dijelova / reference
-
-0261206836
-
-0 261 206 836
-
-6K0906032Q
-
-Kompatibilnost s vozilima
-Vehicle identified in the original product title: SEAT IBIZA 1.4. Additional compatible vehicle models have not yet been verified for the exact part numbers. This is not a complete fitment list.
-Stanje
-Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
-Važna provjera kompatibilnosti
-Match all relevant manufacturer/OEM references to your original part. Also compare connectors, casing and hardware/software version where applicable. A matching model or engine alone does not guarantee compatibility.
-Programiranje / imobilizator
-This is a used engine ECU. Installation may require ECU coding, cloning, immobilizer pairing or professional programming depending on the vehicle. No plug-and-play guarantee is implied.
-ECU Decoding Services
-IMMO OFF or ECU decoding services may be available for selected units on request. Contact us with the original ECU references to check availability and cost.
-
-DOSTAVA ZA HRVATSKU
-Dostava na adresu u Hrvatskoj: 10 EUR.
-Dostava na otoke: +2 EUR.
-Moguće plaćanje pouzećem.</description>
-		<conditionId>20</conditionId>
-		<location_id>13065</location_id>
-		<gmap_lng>13.6080</gmap_lng>
-		<gmap_lat>45.8950</gmap_lat>
-		<isApproximateLocationOnMap>1</isApproximateLocationOnMap>
-		<webshopLink>https://primocarparts.com/</webshopLink>
-		<internalItemCode>B44-19</internalItemCode>
-		<image_list>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/B44-19_1.jpg?v=1790690697</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/B44-19_2.jpg?v=1790690698</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/B44-19_3.jpg?v=1790690698</image>
-		</image_list>
-	</ad_item>
-	<ad_item class="ad_simple">
-		<user_id>3303688</user_id>
 		<original_id>B44-21</original_id>
 		<category_id>12813</category_id>
 		<title>Citroen Xsara ECU / 0261207318 / 9648483480 / 9643897580 / M7.4.4 / BOSCH</title>
@@ -58354,7 +58308,7 @@ Moguće plaćanje pouzećem.</description>
 		<user_id>3303688</user_id>
 		<original_id>B52-17</original_id>
 		<category_id>12813</category_id>
-		<title>Fiat Croma ECU / 0281012963 / 51812902 / BOSCH</title>
+		<title>Fiat Croma ECU / 0281012963 / 51812902 / 0 281 012 963 / BOSCH</title>
 		<currency_id>2</currency_id>
 		<price>19.00</price>
 		<description>Genuine used Bosch engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as Fiat Croma.
@@ -58379,7 +58333,9 @@ Brojevi dijelova / reference
 51 812 902
 
 Kompatibilnost s vozilima
-Vehicle identified in the original product title: Fiat Croma. Additional compatible vehicle models have not yet been verified for the exact part numbers. This is not a complete fitment list.
+Vehicle applications associated with ECU reference 0281012963 in our previously researched compatibility database:
+FIAT CROMA Mk2 – 1.9L 16V MJET 110kW/148HP EDC16C39
+Fitment check: Compare the complete Bosch/OEM reference numbers and, where applicable, software/hardware versions with the original unit. A vehicle model or engine match alone does not guarantee direct interchangeability; coding, cloning or immobilizer work may be required.
 Stanje
 Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
 Važna provjera kompatibilnosti
@@ -65868,7 +65824,7 @@ Moguće plaćanje pouzećem.</description>
 		<user_id>3303688</user_id>
 		<original_id>B59-06</original_id>
 		<category_id>12813</category_id>
-		<title>Fiat Croma ECU / 0281012963 / 51812902 / BOSCH</title>
+		<title>Fiat Croma ECU / 0281012963 / 51812902 / 0 281 012 963 / BOSCH</title>
 		<currency_id>2</currency_id>
 		<price>19.00</price>
 		<description>Genuine used Bosch engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as Fiat Croma.
@@ -96336,58 +96292,6 @@ Moguće plaćanje pouzećem.</description>
 	</ad_item>
 	<ad_item class="ad_simple">
 		<user_id>3303688</user_id>
-		<original_id>B85-20</original_id>
-		<category_id>12813</category_id>
-		<title>Citroen XM / 73807802 / ASC VALEO ECU HYDRATIVE SUSPENSION</title>
-		<currency_id>2</currency_id>
-		<price>25.00</price>
-		<description>Genuine used Valeo engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as Citroen XM.
-Product Details
-
-Component: Engine Control Unit (ECU / ECM)
-
-Manufacturer: Valeo
-
-Condition: Used genuine/OEM automotive part
-
-Primary part reference: 73807802
-
-Brojevi dijelova / reference
-
-73807802
-
-73 807 802
-
-Kompatibilnost s vozilima
-Vehicle identified in the original product title: Citroen XM. Additional compatible vehicle models have not yet been verified for the exact part numbers. This is not a complete fitment list.
-Stanje
-Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
-Važna provjera kompatibilnosti
-Match all relevant manufacturer/OEM references to your original part. Also compare connectors, casing and hardware/software version where applicable. A matching model or engine alone does not guarantee compatibility.
-Programiranje / imobilizator
-This is a used engine ECU. Installation may require ECU coding, cloning, immobilizer pairing or professional programming depending on the vehicle. No plug-and-play guarantee is implied.
-ECU Decoding Services
-IMMO OFF or ECU decoding services may be available for selected units on request. Contact us with the original ECU references to check availability and cost.
-
-DOSTAVA ZA HRVATSKU
-Dostava na adresu u Hrvatskoj: 10 EUR.
-Dostava na otoke: +2 EUR.
-Moguće plaćanje pouzećem.</description>
-		<conditionId>20</conditionId>
-		<location_id>13065</location_id>
-		<gmap_lng>13.6080</gmap_lng>
-		<gmap_lat>45.8950</gmap_lat>
-		<isApproximateLocationOnMap>1</isApproximateLocationOnMap>
-		<webshopLink>https://primocarparts.com/</webshopLink>
-		<internalItemCode>B85-20</internalItemCode>
-		<image_list>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/B85-20_1.jpg?v=1790724981</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/B85-20_2.jpg?v=1790724981</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/B85-20_3.jpg?v=1790724981</image>
-		</image_list>
-	</ad_item>
-	<ad_item class="ad_simple">
-		<user_id>3303688</user_id>
 		<original_id>B85-23</original_id>
 		<category_id>12813</category_id>
 		<title>DAEWOO CHEVROLET ECU / 96395445 / S010016047 / 1AWY / L4</title>
@@ -112258,7 +112162,7 @@ Moguće plaćanje pouzećem.</description>
 		<user_id>3303688</user_id>
 		<original_id>C04-03</original_id>
 		<category_id>12813</category_id>
-		<title>Fiat Croma ECU / 0281012963 / 51812902 / BOSCH</title>
+		<title>Fiat Croma ECU / 0281012963 / 51812902 / 0 281 012 963 / BOSCH</title>
 		<currency_id>2</currency_id>
 		<price>19.00</price>
 		<description>Genuine used Bosch engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as Fiat Croma.
@@ -134658,68 +134562,6 @@ Moguće plaćanje pouzećem.</description>
 	</ad_item>
 	<ad_item class="ad_simple">
 		<user_id>3303688</user_id>
-		<original_id>C23-08</original_id>
-		<category_id>12813</category_id>
-		<title>FORD KUGA ECU / AV41-12A650-DM / 28330764 / G2614 / DCM3.5 / DELPHI</title>
-		<currency_id>2</currency_id>
-		<price>205.00</price>
-		<description>Genuine used Delphi engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as FORD KUGA.
-Product Details
-
-Component: Engine Control Unit (ECU / ECM)
-
-Manufacturer: Delphi
-
-Condition: Used genuine/OEM automotive part
-
-Primary part reference: AV4112A650DM
-
-Brojevi dijelova / reference
-
-AV41-12A650-DM
-
-AV4112A650DM
-
-28330764
-
-28 330 764
-
-G2614
-
-DCM3.5
-
-DCM35
-
-Kompatibilnost s vozilima
-Vehicle identified in the original product title: FORD KUGA. Additional compatible vehicle models have not yet been verified for the exact part numbers. This is not a complete fitment list.
-Stanje
-Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
-Važna provjera kompatibilnosti
-Match all relevant manufacturer/OEM references to your original part. Also compare connectors, casing and hardware/software version where applicable. A matching model or engine alone does not guarantee compatibility.
-Programiranje / imobilizator
-This is a used engine ECU. Installation may require ECU coding, cloning, immobilizer pairing or professional programming depending on the vehicle. No plug-and-play guarantee is implied.
-ECU Decoding Services
-IMMO OFF or ECU decoding services may be available for selected units on request. Contact us with the original ECU references to check availability and cost.
-
-DOSTAVA ZA HRVATSKU
-Dostava na adresu u Hrvatskoj: 10 EUR.
-Dostava na otoke: +2 EUR.
-Moguće plaćanje pouzećem.</description>
-		<conditionId>20</conditionId>
-		<location_id>13065</location_id>
-		<gmap_lng>13.6080</gmap_lng>
-		<gmap_lat>45.8950</gmap_lat>
-		<isApproximateLocationOnMap>1</isApproximateLocationOnMap>
-		<webshopLink>https://primocarparts.com/</webshopLink>
-		<internalItemCode>C23-08</internalItemCode>
-		<image_list>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C23-08_1.jpg?v=1790763621</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C23-08_2.jpg?v=1790763621</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C23-08_3.jpg?v=1790763621</image>
-		</image_list>
-	</ad_item>
-	<ad_item class="ad_simple">
-		<user_id>3303688</user_id>
 		<original_id>C23-12</original_id>
 		<category_id>12813</category_id>
 		<title>LANCIA Y 1.3 ECU / 55195819 / MJD6JF.Y1 / HW01C / 71600.007.03 MAGNETI MARELLI</title>
@@ -135440,60 +135282,6 @@ Moguće plaćanje pouzećem.</description>
 	</ad_item>
 	<ad_item class="ad_simple">
 		<user_id>3303688</user_id>
-		<original_id>C24-01</original_id>
-		<category_id>12813</category_id>
-		<title>Nissan Navara D40 DIFFERENTIAL LOCK CONTROL ECU / 28496EA31A / A58-000XA2</title>
-		<currency_id>2</currency_id>
-		<price>30.00</price>
-		<description>Genuine used engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as Nissan Navara D40 DIFFERENTIAL LOCK CONTROL.
-Product Details
-
-Component: Engine Control Unit (ECU / ECM)
-
-Manufacturer: Not specified in the title
-
-Condition: Used genuine/OEM automotive part
-
-Primary part reference: 28496EA31A
-
-Brojevi dijelova / reference
-
-28496EA31A
-
-A58-000XA2
-
-A58000XA2
-
-Kompatibilnost s vozilima
-Vehicle identified in the original product title: Nissan Navara D40 DIFFERENTIAL LOCK CONTROL. Additional compatible vehicle models have not yet been verified for the exact part numbers. This is not a complete fitment list.
-Stanje
-Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
-Važna provjera kompatibilnosti
-Match all relevant manufacturer/OEM references to your original part. Also compare connectors, casing and hardware/software version where applicable. A matching model or engine alone does not guarantee compatibility.
-Programiranje / imobilizator
-This is a used engine ECU. Installation may require ECU coding, cloning, immobilizer pairing or professional programming depending on the vehicle. No plug-and-play guarantee is implied.
-ECU Decoding Services
-IMMO OFF or ECU decoding services may be available for selected units on request. Contact us with the original ECU references to check availability and cost.
-
-DOSTAVA ZA HRVATSKU
-Dostava na adresu u Hrvatskoj: 10 EUR.
-Dostava na otoke: +2 EUR.
-Moguće plaćanje pouzećem.</description>
-		<conditionId>20</conditionId>
-		<location_id>13065</location_id>
-		<gmap_lng>13.6080</gmap_lng>
-		<gmap_lat>45.8950</gmap_lat>
-		<isApproximateLocationOnMap>1</isApproximateLocationOnMap>
-		<webshopLink>https://primocarparts.com/</webshopLink>
-		<internalItemCode>C24-01</internalItemCode>
-		<image_list>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C24-01_1.jpg?v=1790763794</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C24-01_2.jpg?v=1790763794</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C24-01_3.jpg?v=1790763794</image>
-		</image_list>
-	</ad_item>
-	<ad_item class="ad_simple">
-		<user_id>3303688</user_id>
 		<original_id>C24-02</original_id>
 		<category_id>12813</category_id>
 		<title>FORD RANGER AIRBAG ECU / 3321060 / NALDEC</title>
@@ -135968,7 +135756,7 @@ Moguće plaćanje pouzećem.</description>
 		<user_id>3303688</user_id>
 		<original_id>C24-12</original_id>
 		<category_id>12813</category_id>
-		<title>Fiat Croma ECU / 0281012963 / 51812902 / BOSCH</title>
+		<title>Fiat Croma ECU / 0281012963 / 51812902 / 0 281 012 963 / BOSCH</title>
 		<currency_id>2</currency_id>
 		<price>19.00</price>
 		<description>Genuine used Bosch engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as Fiat Croma.
@@ -191060,64 +190848,6 @@ Moguće plaćanje pouzećem.</description>
 	</ad_item>
 	<ad_item class="ad_simple">
 		<user_id>3303688</user_id>
-		<original_id>C71-16</original_id>
-		<category_id>12813</category_id>
-		<title>RENAULT MODUS 1.5 DCI ECU / 8200398934 / 8200449080 / R0410B030C / DCM1.2</title>
-		<currency_id>2</currency_id>
-		<price>30.00</price>
-		<description>Genuine used engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as RENAULT MODUS 1.5 DCI.
-Product Details
-
-Component: Engine Control Unit (ECU / ECM)
-
-Manufacturer: Not specified in the title
-
-Condition: Used genuine/OEM automotive part
-
-Primary part reference: 8200398934
-
-Brojevi dijelova / reference
-
-8200398934
-
-8200449080
-
-R0410B030C
-
-DCM1.2
-
-DCM12
-
-Kompatibilnost s vozilima
-Vehicle identified in the original product title: RENAULT MODUS 1.5 DCI. Additional compatible vehicle models have not yet been verified for the exact part numbers. This is not a complete fitment list.
-Stanje
-Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
-Važna provjera kompatibilnosti
-Match all relevant manufacturer/OEM references to your original part. Also compare connectors, casing and hardware/software version where applicable. A matching model or engine alone does not guarantee compatibility.
-Programiranje / imobilizator
-This is a used engine ECU. Installation may require ECU coding, cloning, immobilizer pairing or professional programming depending on the vehicle. No plug-and-play guarantee is implied.
-ECU Decoding Services
-IMMO OFF or ECU decoding services may be available for selected units on request. Contact us with the original ECU references to check availability and cost.
-
-DOSTAVA ZA HRVATSKU
-Dostava na adresu u Hrvatskoj: 10 EUR.
-Dostava na otoke: +2 EUR.
-Moguće plaćanje pouzećem.</description>
-		<conditionId>20</conditionId>
-		<location_id>13065</location_id>
-		<gmap_lng>13.6080</gmap_lng>
-		<gmap_lat>45.8950</gmap_lat>
-		<isApproximateLocationOnMap>1</isApproximateLocationOnMap>
-		<webshopLink>https://primocarparts.com/</webshopLink>
-		<internalItemCode>C71-16</internalItemCode>
-		<image_list>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C71-16_1.webp?v=1790927972</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C71-16_2.webp?v=1790927972</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C71-16_3.webp?v=1790927972</image>
-		</image_list>
-	</ad_item>
-	<ad_item class="ad_simple">
-		<user_id>3303688</user_id>
 		<original_id>C71-17</original_id>
 		<category_id>12813</category_id>
 		<title>SUZUKI SWIFT ECU / 33920-68E4 / MB112000-9950 / A4 / DENSO</title>
@@ -195988,62 +195718,6 @@ Moguće plaćanje pouzećem.</description>
 			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C75-21_1.webp?v=1790928335</image>
 			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C75-21_2.webp?v=1790928335</image>
 			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C75-21_3.webp?v=1790928334</image>
-		</image_list>
-	</ad_item>
-	<ad_item class="ad_simple">
-		<user_id>3303688</user_id>
-		<original_id>C75-22</original_id>
-		<category_id>12813</category_id>
-		<title>ALFA ROMEO GT ECU / 0281013533 / 51806565 / BOSCH</title>
-		<currency_id>2</currency_id>
-		<price>89.00</price>
-		<description>Genuine used Bosch engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as ALFA ROMEO GT.
-Product Details
-
-Component: Engine Control Unit (ECU / ECM)
-
-Manufacturer: Bosch
-
-Condition: Used genuine/OEM automotive part
-
-Primary part reference: 0281013533
-
-Brojevi dijelova / reference
-
-0281013533
-
-0 281 013 533
-
-51806565
-
-51 806 565
-
-Kompatibilnost s vozilima
-Vehicle identified in the original product title: ALFA ROMEO GT. Additional compatible vehicle models have not yet been verified for the exact part numbers. This is not a complete fitment list.
-Stanje
-Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
-Važna provjera kompatibilnosti
-Match all relevant manufacturer/OEM references to your original part. Also compare connectors, casing and hardware/software version where applicable. A matching model or engine alone does not guarantee compatibility.
-Programiranje / imobilizator
-This is a used engine ECU. Installation may require ECU coding, cloning, immobilizer pairing or professional programming depending on the vehicle. No plug-and-play guarantee is implied.
-ECU Decoding Services
-IMMO OFF or ECU decoding services may be available for selected units on request. Contact us with the original ECU references to check availability and cost.
-
-DOSTAVA ZA HRVATSKU
-Dostava na adresu u Hrvatskoj: 10 EUR.
-Dostava na otoke: +2 EUR.
-Moguće plaćanje pouzećem.</description>
-		<conditionId>20</conditionId>
-		<location_id>13065</location_id>
-		<gmap_lng>13.6080</gmap_lng>
-		<gmap_lat>45.8950</gmap_lat>
-		<isApproximateLocationOnMap>1</isApproximateLocationOnMap>
-		<webshopLink>https://primocarparts.com/</webshopLink>
-		<internalItemCode>C75-22</internalItemCode>
-		<image_list>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C75-22_1.webp?v=1790928340</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C75-22_2.webp?v=1790928341</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/C75-22_3.webp?v=1790928341</image>
 		</image_list>
 	</ad_item>
 	<ad_item class="ad_simple">
@@ -231859,66 +231533,6 @@ Moguće plaćanje pouzećem.</description>
 	</ad_item>
 	<ad_item class="ad_simple">
 		<user_id>3303688</user_id>
-		<original_id>D14-01</original_id>
-		<category_id>12813</category_id>
-		<title>TOYOTA YARIS ECU / 89661-0D070 / MB275000-3424 / 2ZS-FE / DENSO</title>
-		<currency_id>2</currency_id>
-		<price>24.00</price>
-		<description>Genuine used Denso engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as TOYOTA YARIS.
-Product Details
-
-Component: Engine Control Unit (ECU / ECM)
-
-Manufacturer: Denso
-
-Condition: Used genuine/OEM automotive part
-
-Primary part reference: 896610D070
-
-Brojevi dijelova / reference
-
-89661-0D070
-
-896610D070
-
-MB275000-3424
-
-MB2750003424
-
-2ZS-FE
-
-2ZSFE
-
-Kompatibilnost s vozilima
-Vehicle identified in the original product title: TOYOTA YARIS. Additional compatible vehicle models have not yet been verified for the exact part numbers. This is not a complete fitment list.
-Stanje
-Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
-Važna provjera kompatibilnosti
-Match all relevant manufacturer/OEM references to your original part. Also compare connectors, casing and hardware/software version where applicable. A matching model or engine alone does not guarantee compatibility.
-Programiranje / imobilizator
-This is a used engine ECU. Installation may require ECU coding, cloning, immobilizer pairing or professional programming depending on the vehicle. No plug-and-play guarantee is implied.
-ECU Decoding Services
-IMMO OFF or ECU decoding services may be available for selected units on request. Contact us with the original ECU references to check availability and cost.
-
-DOSTAVA ZA HRVATSKU
-Dostava na adresu u Hrvatskoj: 10 EUR.
-Dostava na otoke: +2 EUR.
-Moguće plaćanje pouzećem.</description>
-		<conditionId>20</conditionId>
-		<location_id>13065</location_id>
-		<gmap_lng>13.6080</gmap_lng>
-		<gmap_lat>45.8950</gmap_lat>
-		<isApproximateLocationOnMap>1</isApproximateLocationOnMap>
-		<webshopLink>https://primocarparts.com/</webshopLink>
-		<internalItemCode>D14-01</internalItemCode>
-		<image_list>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D14-01_1.jpg?v=1790791519</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D14-01_2.jpg?v=1790791520</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D14-01_3.jpg?v=1790791520</image>
-		</image_list>
-	</ad_item>
-	<ad_item class="ad_simple">
-		<user_id>3303688</user_id>
 		<original_id>D14-02</original_id>
 		<category_id>12813</category_id>
 		<title>MERCEDES B W245 ECU / 0281013024 / A6401507479 / CRA.43 / OM640 / BOSCH</title>
@@ -250395,7 +250009,7 @@ Moguće plaćanje pouzećem.</description>
 		<user_id>3303688</user_id>
 		<original_id>B64-03</original_id>
 		<category_id>12813</category_id>
-		<title>Fiat Croma ECU / 0281012963 / 51812902 / BOSCH</title>
+		<title>Fiat Croma ECU / 0281012963 / 51812902 / 0 281 012 963 / BOSCH</title>
 		<currency_id>2</currency_id>
 		<price>19.00</price>
 		<description>Genuine used Bosch engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as Fiat Croma.
@@ -257546,68 +257160,6 @@ Moguće plaćanje pouzećem.</description>
 	</ad_item>
 	<ad_item class="ad_simple">
 		<user_id>3303688</user_id>
-		<original_id>D33-10</original_id>
-		<category_id>12813</category_id>
-		<title>ALFA ROMEO GT ECU / 0281013533 / 51806565 / BOSCH</title>
-		<currency_id>2</currency_id>
-		<price>38.00</price>
-		<description>Genuine used Bosch engine control unit (ecu / ecm). This original automotive component is offered as a replacement for the exact reference numbers shown below. The original listing identifies the vehicle as ALFA ROMEO GT.
-Product Details
-
-Component: Engine Control Unit (ECU / ECM)
-
-Manufacturer: Bosch
-
-Condition: Used genuine/OEM automotive part
-
-Primary part reference: 0281013533
-
-Brojevi dijelova / reference
-
-0281013533
-
-0 281 013 533
-
-51806565
-
-51 806 565
-
-Kompatibilnost s vozilima
-Vehicle applications associated with ECU reference 0281013533 in our previously researched compatibility database:
-
-ALFA ROMEO 147 – 1.9L 16V JTDM 110kW/148HP EDC16C39
-
-ALFA ROMEO GT – 1.9L 16V JTDM 125kW/168HP EDC16C39
-
-Fitment check: Compare the complete Bosch/OEM reference numbers and, where applicable, software/hardware versions with the original unit. A vehicle model or engine match alone does not guarantee direct interchangeability; coding, cloning or immobilizer work may be required.
-Stanje
-Original used component. Normal signs of previous use may be present. Check the actual item photographs, label and connectors carefully before ordering.
-Važna provjera kompatibilnosti
-Match all relevant manufacturer/OEM references to your original part. Also compare connectors, casing and hardware/software version where applicable. A matching model or engine alone does not guarantee compatibility.
-Programiranje / imobilizator
-This is a used engine ECU. Installation may require ECU coding, cloning, immobilizer pairing or professional programming depending on the vehicle. No plug-and-play guarantee is implied.
-ECU Decoding Services
-IMMO OFF or ECU decoding services may be available for selected units on request. Contact us with the original ECU references to check availability and cost.
-
-DOSTAVA ZA HRVATSKU
-Dostava na adresu u Hrvatskoj: 10 EUR.
-Dostava na otoke: +2 EUR.
-Moguće plaćanje pouzećem.</description>
-		<conditionId>20</conditionId>
-		<location_id>13065</location_id>
-		<gmap_lng>13.6080</gmap_lng>
-		<gmap_lat>45.8950</gmap_lat>
-		<isApproximateLocationOnMap>1</isApproximateLocationOnMap>
-		<webshopLink>https://primocarparts.com/</webshopLink>
-		<internalItemCode>D33-10</internalItemCode>
-		<image_list>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D33-10_1.jpg?v=1792248591</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D33-10_2.jpg?v=1792248591</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D33-10_3.jpg?v=1792248591</image>
-		</image_list>
-	</ad_item>
-	<ad_item class="ad_simple">
-		<user_id>3303688</user_id>
 		<original_id>D33-11</original_id>
 		<category_id>12813</category_id>
 		<title>RENAULT OPEL 1.9 DCI CDTI ECU / 0281011529 / HOM8200051608 / 8200546983 / BOSCH</title>
@@ -260870,49 +260422,6 @@ Moguće plaćanje pouzećem.</description>
 			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D36-12_1.jpg?v=1792249177</image>
 			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D36-12_2.jpg?v=1792249178</image>
 			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D36-12_3.jpg?v=1792249178</image>
-		</image_list>
-	</ad_item>
-	<ad_item class="ad_simple">
-		<user_id>3303688</user_id>
-		<original_id>D36-13</original_id>
-		<category_id>12813</category_id>
-		<title>PEUGEOT CITROEN ECU / J34P / 21586048-9 / 21586048-9A SW9664127180 HW9651696680</title>
-		<currency_id>2</currency_id>
-		<price>39.94</price>
-		<description>PEUGEOT CITROEN ECU / J34P / 21586048-9 / 21586048-9A SW9664127180 HW9651696680
-Originalni rabljeni kompjuter motora (ECU) iz Primo Car Parts. Fotografije prikazuju stvarni rabljeni dio koji se prodaje.
-Brojevi dijelova / reference
-
-J34P
-
-21586048-9
-
-215860489
-
-21586048-9A SW9664127180 HW9651696680
-
-Važna provjera kompatibilnosti
-Prije narudžbe usporedite proizvođačke i OEM referentne brojeve, priključke i kućište sa svojim originalnim dijelom. Samo marka, model ili motor vozila nisu dovoljni za potvrdu zamjenjivosti.
-Stanje
-Rabljeni originalni dio. Mogući su uobičajeni kozmetički tragovi korištenja. Prije kupnje pregledajte fotografije stvarnog artikla.
-Programiranje / imobilizator
-Ovisno o vozilu, ugradnja rabljenog ECU-a može zahtijevati kodiranje, kloniranje, sinkronizaciju imobilizatora ili prijenos podataka s originalnog ECU-a.
-
-DOSTAVA ZA HRVATSKU
-Dostava na adresu u Hrvatskoj: 10 EUR.
-Dostava na otoke: +2 EUR.
-Moguće plaćanje pouzećem.</description>
-		<conditionId>20</conditionId>
-		<location_id>13065</location_id>
-		<gmap_lng>13.6080</gmap_lng>
-		<gmap_lat>45.8950</gmap_lat>
-		<isApproximateLocationOnMap>1</isApproximateLocationOnMap>
-		<webshopLink>https://primocarparts.com/</webshopLink>
-		<internalItemCode>D36-13</internalItemCode>
-		<image_list>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D36-13_1.jpg?v=1792249186</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D36-13_2.jpg?v=1792249187</image>
-			<image>https://cdn.shopify.com/s/files/1/0832/6266/9127/files/D36-13_3.jpg?v=1792249186</image>
 		</image_list>
 	</ad_item>
 	<ad_item class="ad_simple">
