@@ -1,0 +1,37 @@
+name: Tag 322 Shopify products with nonwhite first image
+on:
+  push:
+    branches:
+      - audit/shopify-white-bg-2026-10-28
+    paths:
+      - .github/workflows/tag-shopify-nonwhite-photo.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pcp-shopify-tag-first-photo
+  cancel-in-progress: false
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify 322 SKUs and apply only one tag per Shopify product
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/tag_shopify_nonwhite_first_photo.py
+      - name: Save verification results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Shopify-first-photo-tagging-verification
+          path: tag_first_photo_result.json
+          if-no-files-found: ignore
