@@ -1,0 +1,34 @@
+name: Remove fixed-photo tag from 250 successful Shopify products
+on:
+  push:
+    branches:
+      - audit/shopify-white-bg-2026-10-28
+    paths:
+      - .github/workflows/remove-250-photo-tags.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: remove-250-photo-tags
+  cancel-in-progress: false
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Remove only PCP-PHOTO-1-NOT-WHITE for 250 verified UPDATED SKUs
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/remove_tags_for_250_completed_white_images.py
+      - name: Archive report with remaining-tag verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Shopify-250-white-background-tag-cleanup
+          path: white_bg_tag_cleanup_report.json
+          if-no-files-found: warn
