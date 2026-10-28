@@ -1,0 +1,49 @@
+name: Shopify white-background image audit (read only)
+on:
+  push:
+    branches:
+      - audit/shopify-white-bg-2026-10-28
+    paths:
+      - tools/shopify_photo_audit.py
+      - .github/workflows/shopify-photo-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: primo-shopify-photo-audit
+  cancel-in-progress: false
+
+jobs:
+  image-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install image analysis packages
+        run: python -m pip install --disable-pip-version-check pillow numpy
+      - name: Inspect Shopify products and actual image backgrounds
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/shopify_photo_audit.py
+      - name: Upload CSV reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PrimoCarParts-photo-background-audit
+          path: audit_results/
+          if-no-files-found: warn
+      - name: Commit CSV reports only to isolated audit branch
+        if: success()
+        run: |
+          git config user.name "PrimoCarParts Photo Audit"
+          git config user.email "actions@users.noreply.github.com"
+          git add audit_results/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Add generated white-background photo audit CSV reports"
+          git push
