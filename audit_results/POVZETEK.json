@@ -1,0 +1,10 @@
+{
+  "run_utc": "2026-10-28_211707Z",
+  "sku_count": 4988,
+  "image_urls_checked": 9930,
+  "needs_action": 4746,
+  "definitely_nonwhite": 4662,
+  "borderline": 776,
+  "missing": 30,
+  "download_errors": 0
+}
