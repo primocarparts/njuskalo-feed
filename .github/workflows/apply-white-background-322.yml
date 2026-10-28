@@ -1,0 +1,37 @@
+name: Replace white background on 322 Shopify first photos
+on:
+  push:
+    branches:
+      - audit/shopify-white-bg-2026-10-28
+    paths:
+      - .github/workflows/apply-white-background-322.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: shopify-white-background-322
+  cancel-in-progress: false
+jobs:
+  edit-first-photos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install precise background-removal tools
+        run: pip install --disable-pip-version-check 'rembg==2.0.69' 'onnxruntime>=1.19' pillow numpy requests
+      - name: Process all 322 safely, backup originals, replace only first media in place
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/white_background_bulk.py --apply --limit 322
+      - name: Archive backups and a per-SKU result report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PCP-Shopify-322-white-background-backups-and-results
+          path: white_bg_output/
+          retention-days: 90
+          if-no-files-found: warn
