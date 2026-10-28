@@ -154,8 +154,8 @@ def replace_image(t,p,resource):
         if first["id"]!=orig["id"]:raise RuntimeError("First media ID changed")
         if [m["id"] for m in changed["media"]["nodes"]]!=old_ids:
             raise RuntimeError("Other media was reordered")
-        if first["fileStatus"]=="READY":
-            return first.get("image",{}).get("url","")
+        if first["fileStatus"]=="READY" and first.get("image") and first["image"].get("url"):
+            return first["image"]["url"]
     raise RuntimeError("Image processing did not reach READY")
 
 def main():
