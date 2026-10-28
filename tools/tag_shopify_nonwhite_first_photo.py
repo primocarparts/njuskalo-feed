@@ -43,7 +43,7 @@ def main():
     with CSV.open(encoding="utf-8-sig",newline="") as fp:
         data=list(csv.DictReader(fp,delimiter=";"))
     target=[r for r in data if r["slika_1_ozadje"]=="NI_BELO"]
-    ids=[f"gid://shopify/Product/{r['product_id']}" for r in target]
+    ids=[f"gid://shopify/Product/{r['shopify_link'].rstrip('/').split('/')[-1]}" for r in target]
     assert len(target)==322 and len(set(ids))==322, "EXPECTED EXACTLY 322 UNIQUE PRODUCTS"
     assert all(r["status"]=="ACTIVE" for r in target), "Status must be active from audit"
     exp=dict(zip(ids,[r["sku"] for r in target]))
