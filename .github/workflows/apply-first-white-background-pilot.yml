@@ -1,0 +1,32 @@
+name: Apply safe white background to ONE Shopify first image
+on:
+  push:
+    branches:
+      - audit/shopify-white-bg-2026-10-28
+    paths:
+      - .github/workflows/apply-first-white-background-pilot.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one-image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --disable-pip-version-check 'rembg==2.0.69' 'onnxruntime>=1.19' pillow numpy requests
+      - name: Replace ONLY B02-06 first MediaImage, preserving media ID
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/white_background_bulk.py --apply --skus B02-06
+      - name: Preserve originals and replacement report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: white-bg-pilot-backup-report
+          path: white_bg_output/
+          if-no-files-found: warn
