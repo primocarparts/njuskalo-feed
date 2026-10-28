@@ -5,6 +5,7 @@ on:
       - audit/shopify-white-bg-2026-10-28
     paths:
       - .github/workflows/tag-shopify-nonwhite-photo.yml
+      - tools/tag_shopify_nonwhite_first_photo.py
   workflow_dispatch:
 
 permissions:
