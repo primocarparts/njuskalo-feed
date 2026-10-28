@@ -80,6 +80,14 @@ def modify(original,session):
     if max(im.size)>1600:
         z=1600/max(im.size)
         im=im.resize((int(im.width*z),int(im.height*z)),Image.Resampling.LANCZOS)
+    corner_size=max(8,int(min(im.size)*.10))
+    src=np.asarray(im,dtype=np.uint8)
+    corners=[src[:corner_size,:corner_size].mean(),
+             src[:corner_size,-corner_size:].mean(),
+             src[-corner_size:,:corner_size].mean(),
+             src[-corner_size:,-corner_size:].mean()]
+    if max(corners)<140:
+        raise RuntimeError("Tight close-up, cannot remove housing without damage")
     if edge_score(im)>.90:
         return im,None,{"skip":"ALREADY_WHITE"}
     fg=remove(im,session=session,post_process_mask=True)
@@ -168,8 +176,7 @@ def main():
         m=p["media"]["nodes"]
         if p["sku"] not in audit or len(m)==0 or m[0]["mediaContentType"]!="IMAGE":
             raise RuntimeError(f"Unexpected product {p['sku']}: missing image or audit entry")
-        if m[0]["image"]["url"].split("?")[0]!=audit[p["sku"]]["image1"].split("?")[0]:
-            raise RuntimeError(f"First image changed since audit {p['sku']}")
+        # Source URL verified per SKU just before editing; allow already-processed SKUs.
     bysku={p["sku"]:p for p in prod}
     if args.skus:
         skus=[v.strip() for v in args.skus.split(",") if v.strip()]
@@ -185,6 +192,8 @@ def main():
         item={"sku":sku,"title":p["title"],"product_id":p["id"],"media_id":p["media"]["nodes"][0]["id"],
               "original_url":p["media"]["nodes"][0]["image"]["url"]}
         try:
+            if item["original_url"].split("?")[0]!=audit[sku]["image1"].split("?")[0]:
+                raise RuntimeError("Image changed since original audit, skip safely")
             original_bytes=download(item["original_url"])
             im,white,stats=modify(original_bytes,model)
             item.update(stats)
