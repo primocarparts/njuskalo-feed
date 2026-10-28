@@ -1,0 +1,33 @@
+name: Preview white background ECU first photos
+on:
+  push:
+    branches:
+      - audit/shopify-white-bg-2026-10-28
+    paths:
+      - .github/workflows/preview-white-background.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install background cleanup models
+        run: pip install --disable-pip-version-check 'rembg==2.0.69' 'onnxruntime>=1.19' pillow numpy requests
+      - name: Create read-only samples, DO NOT update Shopify
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/white_background_bulk.py --skus B02-06,B02-10,B02-20,B03-13,B05-03,B05-04
+      - name: Upload before/after image comparisons
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: white-background-6-samples
+          path: white_bg_output/
+          if-no-files-found: warn
