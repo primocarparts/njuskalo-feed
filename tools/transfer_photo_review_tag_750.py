@@ -155,8 +155,12 @@ def main():
         raise RuntimeError("Unexpected overlap between 72 old tags and 750 review products")
 
     print("Verified 72 old tags, 750 distinct review Product IDs, no group overlap", flush=True)
-    # Read each of the 750 live products in batches. SKU may repeat; do NOT key by SKU.
+    # Validate all 750 historical IDs, but don't fail because Shopify sold/retired a product.
+    # Never attach a tag to a replacement with an unverified SKU or Product ID.
     confirmed = []
+    missing = []
+    changed = []
+    pretagged = []
     for block in chunks(sorted(expected_ids), 40):
         found = graphql(tok, NODE_QUERY, {"ids": block})["nodes"]
         if len(found) != len(block):
@@ -164,40 +168,49 @@ def main():
         for requested, p in zip(block, found):
             sku = expected_by_id[requested]
             if not p or p.get("id") != requested:
-                raise RuntimeError(f"Target Product ID missing {requested}")
+                missing.append({"product_id": requested, "sku": sku, "reason": "DELETED_OR_UNAVAILABLE"})
+                continue
             if sku not in [n.get("sku") for n in p["variants"]["nodes"]]:
-                raise RuntimeError(f"Product variant changed since audit: {requested} expected SKU {sku}")
+                changed.append({"product_id": requested, "sku": sku, "reason": "SKU_CHANGED"})
+                continue
             if TAG in p["tags"]:
-                raise RuntimeError(f"Target review product already has old tag: {requested}")
+                pretagged.append(requested)
             confirmed.append(requested)
-    assert len(confirmed) == 750
-    print("Live Shopify Product ID + SKU validation PASSED for all 750", flush=True)
+    if len(confirmed) < 650:
+        raise RuntimeError(f"Too many missing/changed historical products: {len(confirmed)} valid from 750")
+    print("Shopify preflight: original=750, existing verified=", len(confirmed),
+          "missing=",len(missing),"changed=",len(changed), "pretagged=",len(pretagged),flush=True)
 
     removed, removal_errors = run_mutation(tok, "tagsRemove", sorted(oldset))
     if removal_errors or len(removed) != 72:
         raise RuntimeError("Failed old tag removal: " + str(removal_errors[:5]))
     print("Removed old tag from 72/72 previous products; beginning transfer", flush=True)
 
-    added, add_errors = run_mutation(tok, "tagsAdd", sorted(expected_ids))
+    added, add_errors = run_mutation(tok, "tagsAdd", sorted(set(confirmed) - set(pretagged)))
     report = {
         "tag": TAG,
         "original_tagged_products": len(oldset),
         "original_tags_removed": len(removed),
-        "new_review_target_products": len(expected_ids),
-        "add_mutation_successes": len(added),
+        "original_review_rows": 750,
+        "valid_existing_review_products": len(confirmed),
+        "deleted_or_unavailable": missing,
+        "changed_skus_skipped": changed,
+        "new_review_tag_mutations": len(added),
+        "already_tagged_review_products": len(pretagged),
         "add_mutation_failures": add_errors,
-        "duplicate_sku_note": "B53-15 appeared on two distinct Product IDs, both included",
+        "duplicate_sku_note": "B53-15 appeared on two distinct Product IDs, both included when present",
         "updated_product_ids": added,
         "old_group_product_ids": old_ids,
     }
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    if add_errors or len(added) != 750:
-        raise RuntimeError("Not all 750 review tags added; see report")
-    verified = verify(tok, expected_ids)
+    if add_errors or len(added)+len(pretagged) != len(confirmed):
+        raise RuntimeError("Not all valid review tags added; see report")
+    verified = verify(tok, set(confirmed))
     report["final_verified_tagged_products"] = len(verified)
-    report["verification"] = "EXACT_MATCH_750"
+    report["verification"] = "EXACT_MATCH_EXISTING_AUDITED_PRODUCTS"
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print("SUCCESS: TAG TRANSFER COMPLETE: old=0, new=750, verified=750", flush=True)
+    print("SUCCESS: TAG TRANSFER COMPLETE: old=0, new=",len(confirmed),
+          "deleted=",len(missing),"changed=",len(changed),flush=True)
 
 if __name__ == "__main__":
     main()
