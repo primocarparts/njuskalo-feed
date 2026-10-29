@@ -1,0 +1,37 @@
+name: Remove PCP white-background photo tag from all Shopify products
+on:
+  push:
+    branches:
+      - audit/shopify-white-bg-2026-10-28
+    paths:
+      - .github/workflows/remove-all-photo-review-tags.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pcp-shopify-remove-all-photo-review-tags
+  cancel-in-progress: false
+
+jobs:
+  remove-tag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Remove only PCP-PHOTO-1-NOT-WHITE from all matching Shopify products
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/remove_all_nonwhite_photo_tags.py
+      - name: Preserve tag cleanup verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Shopify-remove-PCP-PHOTO-1-NOT-WHITE-all
+          path: shopify_remove_all_photo_tag_result.json
+          if-no-files-found: warn
