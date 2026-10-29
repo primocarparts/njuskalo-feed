@@ -94,7 +94,7 @@ def main():
     stale.append({"id":pid,"sku":saved["sku"],"reason":"TITLE_OR_SKU_CHANGED"})
     continue
    imglive=[x["image"]["url"] for x in p["media"]["nodes"] if x.get("image") and x["image"].get("url")]
-   if [x.split("?")[0] for x in imglive[:3]]!=[x.split("?")[0] for x in saved["images"][:3]]:
+   if imglive[:3]!=saved["images"][:3]:
     stale.append({"id":pid,"sku":saved["sku"],"reason":"PHOTO_CHANGED"})
     continue
    classification=classified[pid]["classification"]
@@ -103,8 +103,8 @@ def main():
     to_tag.append({"id":pid,"sku":saved["sku"],"tag":tag})
  print("LIVE_VALIDATED",len(source)-len(stale),"STALE_SKIP",len(stale),"TO_ADD",len(to_tag),flush=True)
  if len(stale)>len(snapshot)*0.10:raise RuntimeError("Unexpected high number of catalog changes, abort tagging")
- if summary["MATCH"]==0:
-  raise RuntimeError("ZERO matched references: OCR malfunction, no tags applied")
+ if summary["MATCH"] < max(12,int(len(snapshot)*.05)):
+  raise RuntimeError("Too few OCR title-reference matches: potential scanner malfunction, no tags applied")
  # Separate tags for disjoint categories. Existing tags and media remain untouched.
  results={"initial_total":len(snapshot),"classified":dict(summary),
           "skipped_due_to_live_changes":stale,"tag_targets":len(to_tag),
