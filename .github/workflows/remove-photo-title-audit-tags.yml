@@ -1,0 +1,37 @@
+name: Remove both photo-title audit tags from Shopify
+on:
+  push:
+    branches:
+      - audit/shopify-title-photo-2026-10-29
+    paths:
+      - .github/workflows/remove-photo-title-audit-tags.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: remove-photo-title-audit-tags-shopify
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Remove only PCP-IMAGE-TITLE-MISMATCH and PCP-IMAGE-TITLE-REVIEW
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/remove_finished_photo_title_audit_tags.py
+      - name: Archive removal and verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-photo-title-audit-tags-cleanup-report
+          path: photo_title_audit_tag_removal_report.json
+          if-no-files-found: warn
