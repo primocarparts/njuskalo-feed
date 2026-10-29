@@ -1,0 +1,103 @@
+name: Audit Shopify photo catalog numbers versus product titles
+on:
+  push:
+    branches:
+      - audit/shopify-title-photo-2026-10-29
+    paths:
+      - .github/workflows/pcp-photo-title-full-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pcp-shopify-photo-title-audit-20261029
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Shopify catalog client and photo libraries
+        run: pip install --disable-pip-version-check requests pillow pytesseract
+      - name: Read full live Shopify catalog and product image URLs (read only)
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/pcp_photo_title_ocr.py --export
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pcp-title-photo-catalog-snapshot
+          path: photo_title_audit/shopify_catalog_snapshot.json
+          retention-days: 60
+
+  audit:
+    needs: snapshot
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: pcp-title-photo-catalog-snapshot
+          path: photo_title_audit/
+      - name: Install high-contrast Tesseract OCR
+        run: |
+          command -v tesseract || (sudo apt-get update -qq && sudo apt-get install -y tesseract-ocr)
+          pip install --disable-pip-version-check requests pillow pytesseract
+      - name: Read physical labels and compare catalog numbers to title
+        run: python tools/pcp_photo_title_ocr.py --shard ${{ matrix.shard }} --shards 6
+      - name: Save detailed per-image OCR evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pcp-title-photo-shard-${{ matrix.shard }}
+          path: photo_title_audit/results_shard_${{ matrix.shard }}.json
+          if-no-files-found: warn
+          retention-days: 60
+
+  apply-tags:
+    needs: [snapshot, audit]
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: pcp-title-photo-catalog-snapshot
+          path: photo_title_audit/
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: pcp-title-photo-shard-*
+          path: photo_title_audit/
+          merge-multiple: true
+      - name: Verify all product IDs, titles, SKUs, photo URLs and evidence, then add only 2 tags
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/pcp_photo_title_apply_tags.py
+      - name: Export title-photo proof report, exceptions and Shopify tagging audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pcp-title-photo-final-verified-report
+          path: |
+            photo_title_audit/photo_title_results.csv
+            photo_title_audit/tagging_report.json
+          if-no-files-found: warn
+          retention-days: 90
