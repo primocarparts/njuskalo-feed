@@ -245,7 +245,8 @@ def main():
   unique={p["product_id"]:p for p in selected}
   data=list(unique.values())
  else:
-  data=[p for p in data if int(p["product_id"].split("/")[-1])%args.shards==args.shard]
+  import hashlib
+  data=[p for p in data if int.from_bytes(hashlib.sha1(p["product_id"].encode()).digest()[:8],"big")%args.shards==args.shard]
  if args.max_products:data=data[:args.max_products]
  print("SCAN_SELECTED",len(data),"SHARD",args.shard,"OF",args.shards,flush=True)
  results=[]
