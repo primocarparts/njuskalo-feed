@@ -5,6 +5,7 @@ on:
       - audit/shopify-white-bg-2026-10-28
     paths:
       - .github/workflows/transfer-photo-review-tag-750.yml
+      - tools/transfer_photo_review_tag_750.py
   workflow_dispatch:
 
 permissions:
