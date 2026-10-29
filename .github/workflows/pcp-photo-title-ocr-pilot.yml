@@ -1,0 +1,37 @@
+name: Pilot Shopify title versus photo OCR (read-only)
+on:
+  push:
+    branches:
+      - audit/shopify-title-photo-2026-10-29
+    paths:
+      - .github/workflows/pcp-photo-title-ocr-pilot.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install OCR dependencies
+        run: |
+          command -v tesseract || (sudo apt-get update -qq && sudo apt-get install -y tesseract-ocr)
+          pip install --disable-pip-version-check requests pillow pytesseract
+      - name: Shopify snapshot plus sample OCR of B32-20 and other products
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/pcp_photo_title_ocr.py --export --pilot
+      - name: Save photos-vs-title evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pcp-title-photo-ocr-pilot
+          path: photo_title_audit/
+          if-no-files-found: warn
