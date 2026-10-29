@@ -1,0 +1,37 @@
+name: Transfer first-photo tag from 72 old to 750 review products
+on:
+  push:
+    branches:
+      - audit/shopify-white-bg-2026-10-28
+    paths:
+      - .github/workflows/transfer-photo-review-tag-750.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shopify-photo-tag-review-750
+  cancel-in-progress: false
+
+jobs:
+  retag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Safely move one Shopify tag from old 72 to exactly 750 reviewed first photos
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/transfer_photo_review_tag_750.py
+      - name: Keep per-product verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-photo-review-750-tag-transfer
+          path: photo_review_750_tag_transfer_result.json
+          if-no-files-found: warn
