@@ -1,0 +1,78 @@
+name: Cross-check OCR photos against other Shopify catalog references
+on:
+  push:
+    branches:
+      - audit/shopify-title-photo-2026-10-29
+    paths:
+      - .github/workflows/pcp-photo-title-crossref-final.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: pcp-title-photo-crossref-20261029
+  cancel-in-progress: false
+
+jobs:
+  crossref:
+    runs-on: ubuntu-latest
+    timeout-minutes: 190
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check whether source 6-shard audit and base Shopify tagging are complete
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 180); do
+            state="$(gh api repos/primocarparts/njuskalo-feed/actions/runs/40850573421 --jq '.status')"
+            if [ "$state" = completed ]; then
+              conclusion="$(gh api repos/primocarparts/njuskalo-feed/actions/runs/40850573421 --jq '.conclusion')"
+              echo "Original scan completed with result: $conclusion"
+              if [ "$conclusion" != success ]; then
+                echo "Original scan unsuccessful; do NOT modify Shopify tags." >&2
+                exit 1
+              fi
+              exit 0
+            fi
+            echo "Source scan still $state, check $i of 180"
+            sleep 60
+          done
+          echo "Audit never finished inside monitoring horizon" >&2
+          exit 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: pcp-title-photo-catalog-snapshot
+          run-id: 40850573421
+          github-token: ${{ github.token }}
+          repository: primocarparts/njuskalo-feed
+          path: photo_title_audit/
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: pcp-title-photo-shard-*
+          run-id: 40850573421
+          github-token: ${{ github.token }}
+          repository: primocarparts/njuskalo-feed
+          merge-multiple: true
+          path: photo_title_audit/
+      - name: Upgrade evidence-backed REVIEW to MISMATCH only where photo part numbers match a different car
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: python tools/pcp_photo_title_crossref_finalize.py
+      - name: Save final SKU list with catalog-number cross references
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PCP-photo-title-FINAL-cross-catalog-audit
+          path: |
+            photo_title_audit/photo_title_final_results.csv
+            photo_title_audit/cross_catalog_final_report.json
+          if-no-files-found: warn
+          retention-days: 90
