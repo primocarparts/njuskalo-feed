@@ -48,3 +48,5 @@ jobs:
           name: pcp-b2b-overlay-20-test-report
           path: pcp_b2b_overlay_test_report.json
           if-no-files-found: warn
+
+# Media reorder uses Shopify mediaUserErrors and string UnsignedInt64 positions.
