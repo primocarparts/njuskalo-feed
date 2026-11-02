@@ -34,6 +34,22 @@ jobs:
           python-version: "3.12"
       - name: Validate SEO safeguards
         run: python -m unittest discover -s tests -p "test_pcp_seo_sync.py" -v
+      - name: Verify Shopify app can update products (read-only scope check)
+        if: github.event_name == 'pull_request'
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: |
+          python - <<'PY'
+          import pcp_seo_sync as sync
+          data = sync.gql(sync.authorize(),
+              "query {currentAppInstallation{accessScopes{handle}}}", {})
+          scopes = {x["handle"] for x in data["currentAppInstallation"]["accessScopes"]}
+          print("Read products allowed:", "read_products" in scopes or "write_products" in scopes)
+          print("Write products allowed:", "write_products" in scopes)
+          if "write_products" not in scopes:
+              raise SystemExit("Shopify GitHub app lacks write_products. Configure a product-write app before enabling schedule.")
+          PY
       - name: Fill only missing Shopify SEO fields
         if: github.event_name != 'pull_request'
         env:
