@@ -130,6 +130,16 @@ def plan(product):
     mpn = sku_mpn(current_mpn) or next((sku_mpn(x) for x in refs if sku_mpn(x)), None)
     fields = []
     add_missing(fields, product["id"], metas, "custom", "pcp_manufacturer", brand)
+    # Correct the known corrupt Google channel override only if the actual brand
+    # is established. Do not change legitimate overrides or unknown manufacturers.
+    channel = metas.get(("shopify--channel-mapping", "channel_vendor_a7b241021b35"))
+    if (brand and channel and
+            channel["value"].strip().lower() == "primo car partscustom.pcp_manufacturer"):
+        fields.append({"ownerId": product["id"],
+                       "namespace": "shopify--channel-mapping",
+                       "key": "channel_vendor_a7b241021b35",
+                       "type": channel.get("type") or "single_line_text_field",
+                       "value": brand})
     add_missing(fields, product["id"], metas, "custom", "condition", "used")
     if refs:
         add_missing(fields, product["id"], metas, "pcp", "reference_numbers",
