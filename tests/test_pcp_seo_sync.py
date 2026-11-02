@@ -55,6 +55,21 @@ class TestPcpSeo(unittest.TestCase):
         self.assertFalse(any(f["key"] in ("pcp_manufacturer", "mpn") for f in fields))
         self.assertFalse(any(f["namespace"] == "mm-google-shopping" for f in fields))
 
+    def test_only_corrupt_channel_brand_is_repaired(self):
+        known = [("custom", "pcp_manufacturer", "BOSCH"),
+                 ("shopify--channel-mapping", "channel_vendor_a7b241021b35",
+                  "Primo Car Partscustom.pcp_manufacturer")]
+        x = product("3x VOLVO ECU / 0281010441 / BOSCH BULK STOCK", known)
+        fields, _, _ = plan(x)
+        corrected = [f for f in fields if f["namespace"] == "shopify--channel-mapping"]
+        self.assertEqual(["BOSCH"], [f["value"] for f in corrected])
+
+        x = product("10x ECU CD132 REFERENCE MATCH BULK STOCK",
+                    [("shopify--channel-mapping", "channel_vendor_a7b241021b35",
+                      "Primo Car Partscustom.pcp_manufacturer")])
+        fields, _, _ = plan(x)
+        self.assertFalse(any(f["namespace"] == "shopify--channel-mapping" for f in fields))
+
     def test_generic_reference_group_without_mpn(self):
         fields, patch, _ = plan(product("10x ECU CD132 REFERENCE MATCH BULK STOCK"))
         self.assertFalse(any(f["key"] == "mpn" for f in fields))
