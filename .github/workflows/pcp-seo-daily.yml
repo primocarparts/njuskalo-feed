@@ -1,0 +1,38 @@
+name: PCP SEO - Shopify new products and BULK
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Preview only (no Shopify edits)"
+        required: false
+        default: true
+        type: boolean
+  schedule:
+    - cron: "15 5 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pcp-seo-product-sync
+  cancel-in-progress: false
+
+jobs:
+  seo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate SEO safeguards
+        run: python -m unittest discover -s tests -p "test_pcp_seo_sync.py" -v
+      - name: Fill only missing Shopify SEO fields
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || '0' }}
+          MAX_UPDATES: "350"
+        run: python pcp_seo_sync.py
