@@ -1,6 +1,11 @@
 name: PCP SEO - Shopify new products and BULK
 
 on:
+  pull_request:
+    paths:
+      - 'pcp_seo_sync.py'
+      - 'tests/test_pcp_seo_sync.py'
+      - '.github/workflows/pcp-seo-daily.yml'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -30,6 +35,7 @@ jobs:
       - name: Validate SEO safeguards
         run: python -m unittest discover -s tests -p "test_pcp_seo_sync.py" -v
       - name: Fill only missing Shopify SEO fields
+        if: github.event_name != 'pull_request'
         env:
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
           SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
