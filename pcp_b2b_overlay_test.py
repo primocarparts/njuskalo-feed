@@ -52,7 +52,7 @@ ADD = """mutation($p:ProductUpdateInput!,$m:[CreateMediaInput!]){productUpdate(p
  product{id} userErrors{field message}
 }}"""
 MOVE = """mutation($id:ID!,$moves:[MoveInput!]!){productReorderMedia(id:$id,moves:$moves){
- job{id done} userErrors{field message}
+ job{id done} mediaUserErrors{field message}
 }}"""
 
 
@@ -140,8 +140,9 @@ def wait_for_cover(token, numeric_id, timeout_s=100):
 
 def reorder_first(token, product_id, cover_id, numeric_id):
     payload = gql(token, MOVE, {"id": product_id,
-                                  "moves": [{"id": cover_id, "newPosition": 0}]})["productReorderMedia"]
-    check_errors(payload)
+                                  "moves": [{"id": cover_id, "newPosition": "0"}]})["productReorderMedia"]
+    if payload.get('mediaUserErrors'):
+        raise RuntimeError('Media reorder errors: ' + json.dumps(payload['mediaUserErrors']))
     for _ in range(18):
         p = fetch_product(token, numeric_id)
         media = get_image_media(p)
