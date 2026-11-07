@@ -24,7 +24,9 @@ class CroatianTranslationTests(unittest.TestCase):
         self.assertIn('Originalni rabljeni kompjuter motora', result)
         self.assertIn('Prije narudžbe usporedite', result)
         self.assertIn('Ovisno o vozilu', result)
-        self.assertIn('DOSTAVA ZA HRVATSKU', result)
+        self.assertTrue(result.startswith(sync.CROATIAN_SHIPPING_HEADER))
+        self.assertIn('POŠTARINA JE UKLJUČENA U CIJENU.', result)
+        self.assertIn('MOGUĆE PLAĆANJE POUZEĆEM.', result)
         self.assertIn('21656026-0', result)
         self.assertIn('8200023519', result)
         for english in ['Original used', 'Before ordering', 'Used original part',
@@ -42,7 +44,21 @@ class CroatianTranslationTests(unittest.TestCase):
         self.assertIn('Rabljeni originalni dio.', result)
         self.assertNotIn('Worldwide Shipping', result)
         self.assertNotIn('Shipping 12', result)
-        self.assertEqual(1, result.count('DOSTAVA ZA HRVATSKU'))
+        self.assertEqual(1, result.count('POŠTARINA JE UKLJUČENA U CIJENU.'))
+        self.assertNotIn('Dostava na adresu u Hrvatskoj: 10 EUR', result)
+        self.assertNotIn('Dostava na otoke: +2 EUR', result)
+
+    def test_old_croatian_shipping_heading_removed(self):
+        source = ('<p>Original used engine control unit (ECU).</p>'
+                  '<h3>DOSTAVA ZA HRVATSKU</h3>'
+                  '<p>Dostava na adresu u Hrvatskoj: 10 EUR.</p>'
+                  '<p>Dostava na otoke: +2 EUR.</p>')
+        with patch.dict(os.environ, {'DEEPL_API_KEY': ''}):
+            result = sync.cro_desc(source)
+        self.assertTrue(result.startswith(sync.CROATIAN_SHIPPING_HEADER))
+        self.assertNotIn('10 EUR', result)
+        self.assertNotIn('+2 EUR', result)
+        self.assertEqual(1, result.count('MOGUĆE PLAĆANJE POUZEĆEM.'))
 
     def test_title_rule_preserves_ecu_and_part_numbers(self):
         ecu = 'RENAULT TWINGO 55 PIN ECU / 21656026-0 / 8200023519'
@@ -75,7 +91,9 @@ class CroatianTranslationTests(unittest.TestCase):
             root = ET.parse(xml).getroot()
             ids = {x.findtext('original_id'): x for x in root.findall('ad_item')}
             self.assertEqual({'B01-01', 'B01-03'}, set(ids))
+            self.assertTrue(ids['B01-01'].findtext('description').startswith(sync.CROATIAN_SHIPPING_HEADER))
             self.assertIn('Prije narudžbe usporedite', ids['B01-01'].findtext('description'))
+            self.assertTrue(ids['B01-03'].findtext('description').startswith(sync.CROATIAN_SHIPPING_HEADER))
             self.assertIn('Originalni rabljeni kompjuter', ids['B01-03'].findtext('description'))
 
 
