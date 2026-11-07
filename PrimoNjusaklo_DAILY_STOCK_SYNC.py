@@ -96,11 +96,11 @@ CROATIAN_SENTENCES=[
  ('Used original part','Rabljeni originalni dio'),
  ('Original used part','Originalni rabljeni dio'),
 ]
-CROATIAN_SHIPPING=(
- '\n\nDOSTAVA ZA HRVATSKU\n'
- 'Dostava na adresu u Hrvatskoj: 10 EUR.\n'
- 'Dostava na otoke: +2 EUR.\n'
- 'Moguće plaćanje pouzećem.'
+# Fixed first lines for all Njuškalo XML descriptions, new and existing.
+# Shipping is included in listed price; never append legacy delivery fees.
+CROATIAN_SHIPPING_HEADER=(
+ 'POŠTARINA JE UKLJUČENA U CIJENU.\n'
+ 'MOGUĆE PLAĆANJE POUZEĆEM.\n\n'
 )
 ENGLISH_PROSE=re.compile(
  r'\b(?:the|this|that|before|ordering|please|compare|used|original|engine|'
@@ -174,10 +174,11 @@ def cro_desc(h):
  s=html_to_text(h)
  # Shopify's shipping section is replaced with the agreed Croatian wording.
  s=re.split(r'(?im)^\s*(?:Worldwide Shipping|Economy\s*&?\s*Express Shipping|'
-            r'Shipping Information|DOSTAVA ZA HRVATSKU)\s*$',s,maxsplit=1)[0].strip()
+            r'Shipping Information|Shipping|DOSTAVA ZA HRVATSKU|'
+            r'Informacije o dostavi|Dostava)\s*$',s,maxsplit=1)[0].strip()
  s=local_croatian_translation(s)
  s=translate_unknown_lines(s)
- return s.rstrip()+CROATIAN_SHIPPING
+ return CROATIAN_SHIPPING_HEADER+s.strip()
 
 # Non-ECU names are localised, without modifying OEM / Bosch references.
 # ECU titles must remain byte-for-byte identical to Shopify (besides whitespace).
