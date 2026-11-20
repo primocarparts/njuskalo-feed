@@ -223,7 +223,6 @@ def shopify_products(tok):
  while True:
   x=gql(tok,q,{'after':after})['products']
   for p in x['nodes']:
-   if 'ECU' not in (p.get('title') or '').upper() and 'ECU' not in (p.get('productType') or '').upper(): continue
    for v in p['variants']['nodes']:
     sku=(v.get('sku') or '').strip()
     if sku: out[sku]=(p,v)
@@ -231,7 +230,7 @@ def shopify_products(tok):
   after=x['pageInfo']['endCursor']
  return out
 
-# The Njuškalo feed contains only individual ECU items with positive Shopify stock.
+# The Njuškalo feed contains only individual ACTIVE Shopify items with positive stock.
 # If there are more than MAX_ADS, prioritise higher prices; newer listings win price ties.
 def is_bulk_product(product,sku):
  title=(product.get('title') or '').strip()
@@ -257,7 +256,7 @@ def safe_price(value):
 
 def select_feed_products(current):
  if not current:
-  raise RuntimeError('Shopify returned no active ECU SKUs; refusing to empty Njuškalo XML.')
+  raise RuntimeError('Shopify returned no active product SKUs; refusing to empty Njuškalo XML.')
  candidates={}
  out_of_stock=0
  excluded_bulk=0
@@ -269,7 +268,7 @@ def select_feed_products(current):
   else:
    candidates[sku]=(product,variant)
  if not candidates:
-  raise RuntimeError('No eligible in-stock individual ECUs; refusing to empty Njuškalo XML.')
+  raise RuntimeError('No eligible in-stock individual items; refusing to empty Njuškalo XML.')
  over_limit=max(0,len(candidates)-MAX_ADS)
  if over_limit:
   # Select the 6000 highest-priced listings, favouring newer Shopify products at equal prices.
@@ -306,7 +305,7 @@ def main():
   if sku: existing[sku]=ad
  current=shopify_products(auth())
  in_stock,out_of_stock,excluded_bulk,over_limit=select_feed_products(current)
- print('Shopify active ECU SKUs:',len(current))
+ print('Shopify active product SKUs:',len(current))
  print('Excluded out-of-stock:',out_of_stock)
  print('Excluded BULK:',excluded_bulk)
  print('Excluded over 6000 (lowest price first):',over_limit)
