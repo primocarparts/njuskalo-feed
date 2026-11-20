@@ -1,10 +1,11 @@
 import os,re,json,html,urllib.request,urllib.parse
+from decimal import Decimal, InvalidOperation
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from html.parser import HTMLParser
 
 API='2026-07'; SHOP='72b63e-9f.myshopify.com'
-USER_ID='3303688'; CATEGORY_ID='12813'; LIMIT=None
+USER_ID='3303688'; CATEGORY_ID='12813'; MAX_ADS=6000
 LOCATION_ID='13065'
 OUT=Path(__file__).with_name('njuskalo.xml')
 CFG=Path(os.environ.get('LOCALAPPDATA',str(Path.home()))) / 'PrimoNjusakloSync' / 'config.json'
@@ -217,7 +218,7 @@ def title_for_njuskalo(title):
  return ''.join(pieces)
 
 def shopify_products(tok):
- q="""query($after:String){products(first:100,after:$after,query:"status:active"){nodes{id title descriptionHtml productType variants(first:100){nodes{sku price inventoryQuantity}} images(first:10){nodes{url}}} pageInfo{hasNextPage endCursor}}}"""
+ q="""query($after:String){products(first:100,after:$after,query:"status:active"){nodes{id title createdAt tags descriptionHtml productType variants(first:100){nodes{sku price inventoryQuantity}} images(first:10){nodes{url}}} pageInfo{hasNextPage endCursor}}}"""
  out={}; after=None
  while True:
   x=gql(tok,q,{'after':after})['products']
@@ -229,6 +230,56 @@ def shopify_products(tok):
   if not x['pageInfo']['hasNextPage']: break
   after=x['pageInfo']['endCursor']
  return out
+
+# The Njuškalo feed contains only individual ECU items with positive Shopify stock.
+# If there are more than MAX_ADS, prioritise higher prices; newer listings win price ties.
+def is_bulk_product(product,sku):
+ title=(product.get('title') or '').strip()
+ product_type=(product.get('productType') or '').upper()
+ upper_sku=sku.upper()
+ if upper_sku.startswith(('PCP-BULK-','PCP-REF-')) or '-BULK-' in upper_sku:
+  return True
+ if re.match(r'^\d+\s*[x×](?:\s|$)',title,flags=re.I):
+  return True
+ if re.search(r'\bBULK\b',title,flags=re.I):
+  return True
+ if 'BULK' in product_type or 'BUNDLE' in product_type:
+  return True
+ tags={str(t).strip().lower() for t in (product.get('tags') or [])}
+ return bool(tags & {'bulk','bulk orders','bulk-orders','bundle','bundles'})
+
+def safe_price(value):
+ try:
+  price=Decimal(str(value or '0').replace(',','.'))
+  return price if price.is_finite() else Decimal('0')
+ except (InvalidOperation,ValueError,TypeError):
+  return Decimal('0')
+
+def select_feed_products(current):
+ if not current:
+  raise RuntimeError('Shopify returned no active ECU SKUs; refusing to empty Njuškalo XML.')
+ candidates={}
+ out_of_stock=0
+ excluded_bulk=0
+ for sku,(product,variant) in current.items():
+  if (variant.get('inventoryQuantity') or 0)<=0:
+   out_of_stock+=1
+  elif is_bulk_product(product,sku):
+   excluded_bulk+=1
+  else:
+   candidates[sku]=(product,variant)
+ if not candidates:
+  raise RuntimeError('No eligible in-stock individual ECUs; refusing to empty Njuškalo XML.')
+ over_limit=max(0,len(candidates)-MAX_ADS)
+ if over_limit:
+  # Select the 6000 highest-priced listings, favouring newer Shopify products at equal prices.
+  ranked=sorted(candidates.items(),key=lambda item:(
+   safe_price(item[1][1].get('price')),
+   item[1][0].get('createdAt') or '',
+   item[0]
+  ),reverse=True)
+  candidates=dict(ranked[:MAX_ADS])
+ return candidates,out_of_stock,excluded_bulk,over_limit
 
 def add(parent,name,value):
  e=ET.SubElement(parent,name); e.text=str(value); return e
@@ -254,7 +305,11 @@ def main():
   sku=(ad.findtext('original_id') or '').strip()
   if sku: existing[sku]=ad
  current=shopify_products(auth())
- in_stock={sku:pv for sku,pv in current.items() if (pv[1].get('inventoryQuantity') or 0)>0}
+ in_stock,out_of_stock,excluded_bulk,over_limit=select_feed_products(current)
+ print('Shopify active ECU SKUs:',len(current))
+ print('Excluded out-of-stock:',out_of_stock)
+ print('Excluded BULK:',excluded_bulk)
+ print('Excluded over 6000 (lowest price first):',over_limit)
  remove_skus=sorted(set(existing)-set(in_stock))
  for sku in remove_skus: root.remove(existing[sku])
  add_skus=sorted(set(in_stock)-set(existing))
@@ -283,6 +338,8 @@ def main():
         '- add DEEPL_API_KEY for fully automatic translation of new templates.')
   for sample in sorted(UNTRANSLATED_ENGLISH)[:5]: print('UNTRANSLATED:',sample)
  save_translation_cache()
+ if len(root.findall('ad_item'))>MAX_ADS:
+  raise RuntimeError('Safety check failed: XML contains more than 6000 ads.')
  ET.indent(root,space='\t'); tree.write(OUT,encoding='UTF-8',xml_declaration=True)
  print('Existing before:',len(existing)); print('Added:',len(add_skus)); print('Removed:',len(remove_skus)); print('Updated descriptions:',updated_descriptions); print('Updated titles:',updated_titles); print('Final XML ads:',len(root.findall('ad_item')))
  if add_skus: print('ADDED SKUs:',', '.join(add_skus))
