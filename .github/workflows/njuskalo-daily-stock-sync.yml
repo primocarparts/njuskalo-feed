@@ -4,6 +4,13 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 20 * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - "PrimoNjusaklo_DAILY_STOCK_SYNC.py"
+      - "tests/**"
+      - ".github/workflows/njuskalo-daily-stock-sync.yml"
 
 permissions:
   contents: write
